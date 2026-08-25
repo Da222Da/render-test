@@ -1,5 +1,5 @@
 <template>
-  <svg ref="markmapRef" :style="{ width: '100%', height: '100%' }"></svg>
+  <svg ref="markmapRef" class="markmap"></svg>
 </template>
 
 <script setup lang="ts">
@@ -79,3 +79,11 @@ defineExpose({
   markmapInstance,
 });
 </script>
+
+<style scoped>
+.markmap {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+</style>

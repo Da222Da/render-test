@@ -6,7 +6,6 @@ export { Markmap };
 
 export default {
   install: (app: App) => {
-    // 注册 WytSpreadsheet 组件
     app.component("Markmap", Markmap);
   },
 } as Plugin;

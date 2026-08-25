@@ -1,80 +1,44 @@
 <template>
-  <el-header height="60px" class="header">
-    <div class="header-content">
-      <!-- 左侧系统名称 -->
-      <div class="logo">
-        <!-- <el-avatar :src="defaultAvatar" :size="36" class="avatar"></el-avatar> -->
-      </div>
-
-      <!-- 右侧用户信息和操作 -->
-      <div class="user-info">
-        <el-dropdown trigger="click">
-          <span class="el-dropdown-link">
-            <!--  -->
-            <!-- <span class="username">{{ user?.username }}</span> -->
-          </span>
-          <!-- <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item @click="handleLogout">退出登录</el-dropdown-item>
-            </el-dropdown-menu>
-          </template> -->
-        </el-dropdown>
-      </div>
-    </div>
-  </el-header>
+  <div class="header-container">
+    <el-menu :default-active="activeIndex" class="header-menu-container" mode="horizontal" :ellipsis="false" router>
+      <el-menu-item index="0"> logo </el-menu-item>
+      <!-- 打狼2026 & 攻略笔记 & 文章库 -->
+      <el-menu-item index="/home">Test1</el-menu-item>
+      <el-menu-item index="/notes">Test2</el-menu-item>
+      <!-- <el-menu-item index="/articles">Test3</el-menu-item> -->
+    </el-menu>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { computed } from "vue";
-import { ElMessageBox, ElMessage } from "element-plus";
-// import { useAuthStore } from "@/store/auth";
+import { ref, watch } from "vue";
+import { useRoute } from "vue-router";
 
-// const authStore = useAuthStore();
+const route = useRoute();
+const activeIndex = ref("/");
 
-// 获取用户信息
-// const user = computed(() => authStore.user);
-
-// 默认头像
-const defaultAvatar = "http://img.zzqlyx.com/20240903/yk.png";
-
-// 处理退出登录
-// const handleLogout = () => {
-//   ElMessageBox.confirm("确定要退出登录吗？", "提示", {
-//     confirmButtonText: "确定",
-//     cancelButtonText: "取消",
-//     type: "info",
-//   })
-//     .then(() => {
-//       authStore.logout();
-//     })
-//     .catch(() => {
-//       // 用户取消退出
-//     });
-// };
+// 监听路由路径变化
+watch(
+  () => route.path,
+  (newPath) => {
+    activeIndex.value = newPath;
+  },
+  { immediate: true }, // 立即执行一次，确保初始化正确
+);
 </script>
 
-<style lang="scss" scoped>
-.header {
+<style scoped>
+.header-container {
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  height: 60px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 
-.header-content {
+.header-menu-container {
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
-
-.logo h2 {
-  margin: 0;
-  font-size: 1.5rem;
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
+.el-menu--horizontal > .el-menu-item:nth-child(1) {
+  margin-right: auto;
 }
 </style>

@@ -47,14 +47,15 @@ const markmapValue = ref(props.value);
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: auto;
+  /* overflow: auto; */
+  position: relative;
 }
 
 /* 默认情况下，预览区占满，编辑区隐藏 (根据你的业务需求调整) */
 .preview-pane {
   flex: 1;
   height: 100%;
-  overflow: auto;
+  /* overflow: auto; */
 }
 
 .edit-pane {
