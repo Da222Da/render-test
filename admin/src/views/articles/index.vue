@@ -39,7 +39,7 @@ const dialogType = ref("view");
 const articlesAddDialogVisible = ref(false); // 新增文章
 const articlesDetailsDialogVisible = ref(false); // 查看文章
 const articlesEditDialogVisible = ref(false); // 编辑文章
-const markdownMode = ref("preview"); // Markdown 模式
+const markdownMode = ref("previewOnly"); // Markdown 模式
 const articlesDialogVisible = ref(false);
 let articlesInfo = reactive({
   id: "",
@@ -65,7 +65,7 @@ const openDialog = (type, row) => {
   switch (type) {
     case "add":
       articlesAddDialogVisible.value = true;
-      markdownMode.value = "add";
+      markdownMode.value = "edit&preview";
       articlesInfo = {
         id: "",
         title: "",
@@ -74,12 +74,12 @@ const openDialog = (type, row) => {
       break;
     case "view":
       articlesDetailsDialogVisible.value = true;
-      markdownMode.value = "preview";
+      markdownMode.value = "previewOnly";
       articlesInfo = row;
       break;
     case "edit":
       articlesEditDialogVisible.value = true;
-      markdownMode.value = "edit";
+      markdownMode.value = "edit&preview";
       articlesInfo = row;
       break;
   }

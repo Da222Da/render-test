@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.2",
-    "@zhangxianjue/markdown-vue3": "^1.0.0",
+    "@zhangxianjue/markdown-editor-v3": "^1.0.0",
     "axios": "^1.19.0",
     "element-plus": "^2.14.3",
     "normalize.css": "^8.0.1",

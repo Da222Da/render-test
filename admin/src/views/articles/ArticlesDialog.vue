@@ -2,7 +2,7 @@
   <el-dialog v-model="visiable" :title="dialogTitle" width="80%" @close="handleColse" destroy-on-close>
     <el-input v-if="type !== 'view'" v-model="articleTitle" style="width: 240px; margin-bottom: 10px" placeholder="请输入文章标题" />
     <div style="height: 65vh">
-      <Markdown :value="articles.content" :mode="markdownMode" ref="markdownRef" />
+      <Markdown v-model="articles.content" :mode="markdownMode" ref="markdownRef" />
     </div>
     <template #footer>
       <div v-if="type === 'edit'">
