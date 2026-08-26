@@ -12,6 +12,6 @@ declare module "@zhangxianjue/markdown-vue3" {
 }
 
 declare module "@zhangxianjue/markmap" {
-  const Markmap: any; // 如果知道具体类型，可以替换为更精确的类型
+  const Markmap: any;
   export default Markmap;
 }

@@ -51,7 +51,6 @@ let getMatched = () => {
         { ...parentRoute, meta: { ...parentRoute.meta, title: parentTitle } }, // 父路由记录
         { ...route, meta: { ...route.meta, title: currentTitle } }, // 当前路由记录
       ];
-      console.log("breadList::: ", breadList);
       return;
     }
   }

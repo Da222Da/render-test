@@ -5,9 +5,9 @@
 
     <!-- 内容区域 -->
     <div class="w-100 box-content">
-      <el-row class="w-100 h-100" :gutter="20">
+      <el-row class="w-100 h-100 m-0" :gutter="20">
         <el-col :xs="0" :sm="4"></el-col>
-        <el-col :xs="24" :sm="16" class="w-100 h-100">
+        <el-col :xs="24" :sm="16" class="w-100 h-100 p-0">
           <!-- 面包屑 -->
           <Breadcrumb :height="BreadcrumbHeight" />
 
