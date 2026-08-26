@@ -13,13 +13,16 @@ const routes: Array<RouteRecordRaw> = [
         path: "/home",
         name: "Home",
         component: () => import("@/views/Home.vue"),
+        meta: {
+          title: "打狼 2026",
+        },
       },
       {
         path: "/notes",
         name: "Notes",
         component: () => import("@/views/Notes/index.vue"),
         meta: {
-          title: "攻略笔记",
+          title: "Unreal Engine 攻略笔记",
         },
       },
       {
@@ -29,7 +32,7 @@ const routes: Array<RouteRecordRaw> = [
         props: true,
         meta: {
           title: (route: any) => route.query.title || "文章详情",
-          parent: (route: any) => route.query.from || "",
+          parent: (route: any) => route.query.parent || "",
         },
       },
     ],
@@ -40,5 +43,12 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
+// 在路由跳转前，动态设置 query 参数
+// router.beforeEach((to, from) => {
+//   console.log("to::: ", to);
+//   console.log("from::: ", from);
+//   return true;
+// });
 
 export default router;

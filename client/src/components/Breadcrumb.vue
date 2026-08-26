@@ -28,6 +28,7 @@ const breadList = ref([]);
 
 // 👉 新增：辅助函数，用于解析 meta 中的值（支持函数和静态值）
 const resolveMetaValue = (value, route) => {
+  if (!value) return;
   if (typeof value === "function") {
     return value(route); // 如果是函数，执行它并传入 route
   }
@@ -50,6 +51,7 @@ let getMatched = () => {
         { ...parentRoute, meta: { ...parentRoute.meta, title: parentTitle } }, // 父路由记录
         { ...route, meta: { ...route.meta, title: currentTitle } }, // 当前路由记录
       ];
+      console.log("breadList::: ", breadList);
       return;
     }
   }
