@@ -1,17 +1,27 @@
 import { defineConfig } from "vitepress";
 
-// https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "zhangxianjue",
   description: "zhangxianjue docs",
   themeConfig: {
-    nav: [
-      { text: "Home", link: "/" },
-      { text: "Server 服务", link: "/server/data-sheet" },
-    ],
-
-    sidebar: [{ text: "数据表设计", link: "/server/data-sheet.md" }],
-
-    socialLinks: [{ icon: "github", link: "https://github.com/vuejs/vitepress" }],
+    outline: [2, 3],
+    sidebar: {
+      "/": [
+        {
+          text: "首页",
+          link: "/",
+          items: [
+            {
+              text: "服务器项目",
+              link: "src/server-project.md",
+              items: [
+                { text: "数据表设计", link: "src/database.md" },
+                { text: "接口设计", link: "src/api.md" },
+              ],
+            },
+          ],
+        },
+      ],
+    },
   },
 });

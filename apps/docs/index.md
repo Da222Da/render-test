@@ -1,25 +1,8 @@
----
-# https://vitepress.dev/reference/default-theme-home-page
-layout: home
+# zhangxianjue.com
 
-hero:
-  name: "zhangxianjue"
-  text: "zhangxianjue docs"
-  tagline: My great project tagline
-  actions:
-    - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
-    - theme: alt
-      text: API Examples
-      link: /api-examples
+> 参考资料：https://blog.csdn.net/qq_26631337/article/details/142764949
 
-features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
----
-
+1. [project 服务器项目](server-project.md)
+   - [api 接口设计](api.md)
+   - [database 数据库设计](database.md)
+2. [project 前端项目](front-project.md)

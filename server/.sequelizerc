@@ -1,0 +1,15 @@
+const path = require("path");
+
+module.exports = {
+  // 指定数据库配置文件路径
+  config: path.resolve("src", "config", "config.json"),
+
+  // 指定迁移文件存放路径
+  "migrations-path": path.resolve("src", "migrations"),
+
+  // 指定模型文件存放路径
+  "models-path": path.resolve("src", "models"),
+
+  // 指定种子文件存放路径
+  "seeders-path": path.resolve("src", "seeders"),
+};
