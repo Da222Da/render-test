@@ -22,7 +22,7 @@
 └── tsconfig.json # TypeScript 配置文件
 ```
 
-## FAQ
+## FAQ 常见问题
 
 ### 1. 如何创建 TS Express 项目？
 
@@ -106,7 +106,7 @@ app.listen(PORT, () => {
 }
 ```
 
-### 2. 如何创建全局错误处理中间件？—— `errorHandler`
+### 2. 如何创建全局错误处理中间件 errorHandler？
 
 1. 创建 `middlewares/errorMiddleware.ts` 文件
 
@@ -146,7 +146,7 @@ app.listen(PORT, () => {
 });
 ```
 
-### 3. 如何创建 API 文档？—— `swagger`
+### 3. swagger 如何创建 API 文档？
 
 1. 安装依赖
 
@@ -246,3 +246,150 @@ app.listen(PORT, () => {
 
    export default router;
    ```
+
+### 4. bcrypt 如何对明文密码“加密”？
+
+`bcrypt` 是一个用于**密码哈希加密**的 Node.js/TypeScript 模块。它的核心作用是。
+
+在开发中，我们绝不能将用户的明文密码直接存入数据库（一旦数据库泄露，所有用户密码就会曝光）。所以，需要`bcrypt` 来安全地存储和验证用户密码。
+
+1. **哈希加密**：将明文密码转换成一串不可逆的随机字符串（哈希值）存入数据库。
+2. **验证密码**：将用户登录时输入的明文密码与数据库中存储的哈希值进行比对，判断密码是否正确。
+
+```typescript
+import * as bcrypt from "bcrypt";
+
+// 1. 加密密码
+async function hashPassword(plainPassword: string): Promise<string> {
+  // saltRounds 代表加盐的轮数（也叫成本因子），推荐 10-12
+  // 轮数越高，加密越安全，但耗时也越长
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(plainPassword, saltRounds);
+  console.log("加密后的密码:", hashedPassword);
+  // 输出类似: $2b$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy
+  return hashedPassword;
+}
+
+// 2. 验证密码
+async function checkPassword(plainPassword: string, hashedPassword: string): Promise<boolean> {
+  // 将用户输入的明文密码和数据库里存的哈希值进行比对
+  const isMatch = await bcrypt.compare(plainPassword, hashedPassword);
+
+  if (isMatch) {
+    console.log("密码正确，登录成功！");
+  } else {
+    console.log("密码错误！");
+  }
+
+  return isMatch;
+}
+
+// 使用示例
+(async () => {
+  const pwd = "mySecret123";
+  // 注册时：加密并存储
+  const hashed = await hashPassword(pwd);
+
+  // 登录时：验证
+  await checkPassword("mySecret123", hashed); // true
+  await checkPassword("wrongPassword", hashed); // false
+})();
+```
+
+### 5. jsonwebtoken 如何实现登录认证功能？
+
+`jsonwebtoken` 是一个用于生成和验证 JSON Web Tokens (JWT) 的 Node.js/TypeScript 模块。JWT 是一种用于在客户端和服务器之间安全传输信息的机制。
+
+1. **用户登录并签发 Token**：在用户登录成功后，生成一个 JWT 并返回给客户端。
+
+```js
+const jwt = require("jsonwebtoken");
+const secretKey = "your_secret_key"; // 密钥，务必保存在环境变量中
+
+app.post("/login", (req, res) => {
+  const { username, password } = req.body;
+
+  // 1. 验证用户名和密码（伪代码，通常需查询数据库）
+  const user = await User.findOne({ where: { username } });
+
+  if (!user?.username || !user?.password) {
+    return sendErrorResponse(res, HttpStatusCode.BAD_REQUEST, "无效的用户名或密码");
+  }
+
+  if (user) {
+    // 2. 验证成功，使用 jwt.sign 生成 Token
+    // payload 通常存放用户的唯一标识，不要存放敏感信息如密码
+    const token = jwt.sign(
+      { userId: user.id, role: user.role }, // Payload
+      secretKey, // 密钥
+      { expiresIn: "1h" }, // 配置项，如过期时间
+    );
+
+    // 3. 将 Token 返回给客户端
+    res.json({ message: "登录成功", token });
+  } else {
+    res.status(401).json({ message: "账号或密码错误" });
+  }
+});
+```
+
+2. **验证 token**：在每次请求时，客户端将 JWT 附加到请求头中，服务器验证 JWT 的有效性。
+   1. 客户端将 JWT 放在请求头的 `Authorization` 字段中，格式为 `Bearer <token>`。
+
+   2. **token 验证中间件`authMiddleware`**：从请求头中提取 `Authorization`，并使用 `jwt.verify` 方法验证其有效性，最后，将用户信息存储到 `req.body.user` 中。
+
+      ```ts
+      // src/middlewares/authMiddleware.ts
+      import type { Request, Response, NextFunction } from "express";
+      import jwt from "jsonwebtoken";
+      import type { JwtPayload } from "jsonwebtoken";
+      import { sendErrorResponse } from "../utils/response.ts";
+      import { HttpStatusCode } from "../utils/constants/HttpStatus.ts";
+      import dotenv from "dotenv";
+
+      dotenv.config();
+
+      interface DecodedToken extends JwtPayload {
+        userId: number;
+        role_id: number;
+      }
+
+      export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
+        // 1. 从请求头中获取 token
+        const authHeader = req.headers["authorization"];
+
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+          return sendErrorResponse(res, HttpStatusCode.UNAUTHORIZED, "未提供令牌，请先登录");
+        }
+
+        // 2. 提取 token 字符串（去掉 'Bearer ' 前缀）
+        const token = authHeader && authHeader.split(" ")[1]; // Bearer <token>
+
+        try {
+          // 3. 验证并解码 token
+          const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as DecodedToken;
+
+          // 4. 将用户信息挂载到 req.user 上，供后续路由使用
+          if (!req.body) req.body = {}; // 如果没有 req.body，则初始化为空对象
+          req.body.user = decoded; // 包含 userId, username 等
+
+          next(); // 验证通过，放行
+        } catch (error) {
+          return sendErrorResponse(res, HttpStatusCode.UNAUTHORIZED, "无效的 token");
+        }
+      };
+      ```
+
+   3. **使用示例**：在路由中使用 `authMiddleware` 验证用户身份。
+
+      ```ts
+      import express from "express";
+      import { getUserInfo } from "../controllers/authController.ts";
+      import { authMiddleware } from "../middlewares/authMiddleware.ts";
+
+      const router = express.Router();
+
+      router.get("/getUserInfo", authMiddleware, getUserInfo);
+
+      export default router;
+      ```

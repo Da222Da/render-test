@@ -13,6 +13,16 @@ const swaggerOptions = {
         url: "http://localhost:3000",
       },
     ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          // 定义 bearerAuth
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
   },
   // 指定需要解析的文件路径
   apis: ["./src/routes/*.ts"],

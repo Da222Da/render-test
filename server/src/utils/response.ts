@@ -1,8 +1,8 @@
 // src/utils/response.ts
 import { HttpStatusCode, HttpStatusMessage } from "./constants/HttpStatus.ts";
 import { ErrorCode } from "./constants/ErrorInfo.ts";
-
 import type { Response } from "express";
+
 /**
  * 发送成功响应
  * @param res Express 响应对象

@@ -1,5 +1,11 @@
 # 接口设计
 
+## 认证 API
+
+- POST /api/auth/register 用户注册
+- POST /api/auth/login 用户登录，返回 JWT Token
+- GET /api/auth/getUserInfo 获取用户信息（需登录）
+
 ## 用户管理 API
 
 - GET /api/users 获取用户列表
@@ -15,12 +21,6 @@
 - PUT /api/roles/:id 更新角色
 - DELETE /api/roles/:id 删除角色
 - GET /api/roles/:id/permissions 获取角色的权限列表
-
-## 认证 API
-
-- POST /api/auth/login 用户登录，返回 JWT Token
-- POST /api/auth/register 用户注册
-- GET /api/auth/profile 获取用户信息（需登录）
 
 ## FAQ
 
@@ -55,17 +55,17 @@
 
 3. 在 `app.ts` 中挂载路由
 
-```ts
-import express from "express";
-import routes from "./routes/index.ts";
+   ```ts
+   import express from "express";
+   import routes from "./routes/index.ts";
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+   const app = express();
+   const PORT = process.env.PORT || 3000;
 
-// 集成路由
-app.use("/api", routes);
+   // 集成路由
+   app.use("/api", routes);
 
-app.listen(PORT, () => {
-  console.log(`🚀 服务器启动在 http://localhost:${PORT}`);
-});
-```
+   app.listen(PORT, () => {
+     console.log(`🚀 服务器启动在 http://localhost:${PORT}`);
+   });
+   ```

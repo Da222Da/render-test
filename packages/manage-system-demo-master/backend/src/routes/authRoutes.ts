@@ -1,7 +1,7 @@
 // routes/authRoutes.ts
-import express from 'express';
-import { login, register, getUserInfo, refreshToken, logout } from '../controllers/authController';
-import { authMiddleware } from '../middlewares/authMiddleware';
+import express from "express";
+import { login, register, getUserInfo, refreshToken, logout } from "../controllers/authController";
+import { authMiddleware } from "../middlewares/authMiddleware";
 
 const router = express.Router();
 
@@ -34,7 +34,7 @@ const router = express.Router();
  *       500:
  *         description: Error registering user
  */
-router.post('/register', register);
+router.post("/register", register);
 
 /**
  * @swagger
@@ -75,8 +75,7 @@ router.post('/register', register);
  *       500:
  *         description: Internal server error
  */
-router.post('/login', login);
-
+router.post("/login", login);
 
 /**
  * @swagger
@@ -98,7 +97,7 @@ router.post('/login', login);
  *       500:
  *         $ref: '#/components/responses/InternalServerError'
  */
-router.get('/getUserInfo', authMiddleware, getUserInfo);
+router.get("/getUserInfo", authMiddleware, getUserInfo);
 
 /**
  * @swagger
@@ -118,7 +117,7 @@ router.get('/getUserInfo', authMiddleware, getUserInfo);
  *       500:
  *         $ref: '#/components/responses/InternalServerError'
  */
-router.post('/logout', logout);
+router.post("/logout", logout);
 
 /**
  * @swagger
@@ -153,6 +152,6 @@ router.post('/logout', logout);
  *       500:
  *         description: Internal server error
  */
-router.post('/logout', authMiddleware, refreshToken);
+router.post("/refreshToken", authMiddleware, refreshToken);
 
 export default router;

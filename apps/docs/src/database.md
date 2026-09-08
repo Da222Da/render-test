@@ -13,21 +13,25 @@
 | createdAt | DATE    | 创建时间         |
 | updatedAt | DATE    | 更新时间         |
 
+1. 生成 User 模型文件与迁移文件：`npx sequelize-cli-ts-js model:generate --name User --attributes username:string,email:string,avatar:string,password:string,role_id:int`
+
+2. 执行迁移文件: `sequelize db:migrate`
+
 ## Article 文章表
 
-| 字段名     | 类型     | 描述       |
-| :--------- | :------- | :--------- |
-| id         | int      | 主键，自增 |
-| title      | varchar  | 标题，唯一 |
-| content    | text     | 内容，唯一 |
-| created_at | datetime | 创建时间   |
-| updated_at | datetime | 更新时间   |
+| 字段名     | 类型    | 描述       |
+| :--------- | :------ | :--------- |
+| id         | INTEGER | 主键，自增 |
+| title      | STRING  | 标题，唯一 |
+| content    | TEXT    | 内容，唯一 |
+| created_at | DATE    | 创建时间   |
+| updated_at | DATE    | 更新时间   |
 
 1.  生成 Articles 模型文件与迁移文件：`npx sequelize-cli-ts-js model:generate --name Article --attributes title:string,content:text`
 
 2.  执行迁移文件: `sequelize db:migrate`
 
-## FAQ
+## FAQ 常见问题
 
 ### 1. 如何使用 Sequelize 操作 MySQL 数据库？
 
